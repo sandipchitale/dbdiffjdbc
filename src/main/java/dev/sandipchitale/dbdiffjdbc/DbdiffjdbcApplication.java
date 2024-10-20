@@ -28,8 +28,8 @@ public class DbdiffjdbcApplication {
             namesToDiff1Repository.save(namesToDiff1);
 
             namesToDiff1Repository.findAllIncludeRowId().forEach((NamesToDiff1WithCtId namesToDiff1WithCtId) -> {
-                //                namesToDiff1Repository.findByCtId(String.valueOf(namesToDiff1WithCtId.ctid())).ifPresent(System.out::println);
-                System.out.println(namesToDiff1WithCtId);
+                namesToDiff1Repository.findByCtId(String.valueOf(namesToDiff1WithCtId.ctid())).ifPresent(System.out::println);
+//                System.out.println(namesToDiff1WithCtId);
             });
 
             NamesToDiff2 namesToDiff2 = new NamesToDiff2(null, "Jay", 28);
@@ -39,8 +39,8 @@ public class DbdiffjdbcApplication {
             namesToDiff2Repository.save(namesToDiff2);
 
             namesToDiff2Repository.findAllIncludeRowId().forEach((NamesToDiff2WithCtId namesToDiff2WithCtId) -> {
-//                namesToDiff2Repository.findByCtId(String.valueOf(namesToDiff2WithCtId.ctid())).ifPresent(System.out::println);
-                System.out.println(namesToDiff2WithCtId);
+                namesToDiff2Repository.findByCtId(String.valueOf(namesToDiff2WithCtId.ctid())).ifPresent(System.out::println);
+//                System.out.println(namesToDiff2WithCtId);
             });
         };
     }

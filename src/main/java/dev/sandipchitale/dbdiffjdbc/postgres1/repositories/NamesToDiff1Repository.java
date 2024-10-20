@@ -14,7 +14,7 @@ public interface NamesToDiff1Repository extends CrudRepository<NamesToDiff1, Lon
     @Query(value = "SELECT ctid FROM names")
     Iterable<Object> findAllRowIds();
 
-    @Query(value = "SELECT * FROM names WHERE ctid = ?::tid")
+    @Query(value = "SELECT * FROM names WHERE ctid = :ctid::tid")
     Optional<NamesToDiff1> findByCtId(String ctid);
 
 }
