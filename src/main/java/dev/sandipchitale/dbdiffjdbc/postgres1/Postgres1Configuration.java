@@ -24,7 +24,6 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.data.jdbc.repository.support.JdbcRepositoryFactoryBean;
 import org.springframework.data.relational.RelationalManagedTypes;
 import org.springframework.data.relational.core.dialect.Dialect;
-import org.springframework.data.relational.core.dialect.PostgresDialect;
 import org.springframework.data.relational.core.mapping.NamingStrategy;
 import org.springframework.data.relational.core.mapping.RelationalMappingContext;
 import org.springframework.data.repository.Repository;
@@ -57,20 +56,23 @@ public class Postgres1Configuration {
         this.base.setApplicationContext(applicationContext);
     }
 
-    @Bean @Primary
+    @Bean
+    @Primary
     @Qualifier("db1")
     @ConfigurationProperties(prefix = "datasource.postgres1")
     public DataSourceProperties dataSourcePropertiesDb1() {
         return new DataSourceProperties();
     }
 
-    @Bean @Primary
+    @Bean
+    @Primary
     @Qualifier("db1")
     public HikariDataSource dataSourceDb1(@Qualifier("db1") DataSourceProperties dataSourcePropertiesDb1) {
         return dataSourcePropertiesDb1.initializeDataSourceBuilder().type(HikariDataSource.class).build();
     }
 
-    @Bean @Primary
+    @Bean
+    @Primary
     @Qualifier("db1")
     public NamedParameterJdbcOperations jdbcOperationsDb1(
             @Qualifier("db1") DataSource dataSource
@@ -78,7 +80,8 @@ public class Postgres1Configuration {
         return new NamedParameterJdbcTemplate(dataSource);
     }
 
-    @Bean @Primary
+    @Bean
+    @Primary
     @Qualifier("db1")
     public PlatformTransactionManager transactionManagerDb1(
             @Qualifier("db1") DataSource dataSource
@@ -86,13 +89,15 @@ public class Postgres1Configuration {
         return new JdbcTransactionManager(dataSource);
     }
 
-    @Bean @Primary
+    @Bean
+    @Primary
     @Qualifier("db1")
     public RelationalManagedTypes jdbcManagedTypesDb1() throws ClassNotFoundException {
         return base.jdbcManagedTypes();
     }
 
-    @Bean @Primary
+    @Bean
+    @Primary
     @Qualifier("db1")
     public JdbcMappingContext jdbcMappingContextDb1(
             Optional<NamingStrategy> namingStrategy,
@@ -101,7 +106,8 @@ public class Postgres1Configuration {
         return base.jdbcMappingContext(namingStrategy, customConversions, jdbcManagedTypes);
     }
 
-    @Bean @Primary
+    @Bean
+    @Primary
     @Qualifier("db1")
     public JdbcConverter jdbcConverterDb1(
             @Qualifier("db1") JdbcMappingContext mappingContext,
@@ -112,13 +118,15 @@ public class Postgres1Configuration {
         return base.jdbcConverter(mappingContext, operations, relationResolver, conversions, dialect);
     }
 
-    @Bean @Primary
+    @Bean
+    @Primary
     @Qualifier("db1")
     public JdbcCustomConversions jdbcCustomConversionsDb1() {
         return base.jdbcCustomConversions();
     }
 
-    @Bean @Primary
+    @Bean
+    @Primary
     @Qualifier("db1")
     public JdbcAggregateTemplate jdbcAggregateTemplateDb1(
             ApplicationContext applicationContext,
@@ -128,7 +136,8 @@ public class Postgres1Configuration {
         return base.jdbcAggregateTemplate(applicationContext, mappingContext, converter, dataAccessStrategy);
     }
 
-    @Bean @Primary
+    @Bean
+    @Primary
     @Qualifier("db1")
     public DataAccessStrategy dataAccessStrategyDb1(
             @Qualifier("db1") NamedParameterJdbcOperations operations,
@@ -138,10 +147,11 @@ public class Postgres1Configuration {
         return base.dataAccessStrategyBean(operations, jdbcConverter, context, dialect);
     }
 
-    @Bean @Primary
+    @Bean
+    @Primary
     @Qualifier("db1")
     public Dialect jdbcDialectDb1(@Qualifier("db1") NamedParameterJdbcOperations operations) {
-        return PostgresDialect.INSTANCE;
+        return base.jdbcDialect(operations);
     }
 
     public static class JdbcRepositoryFactoryBeanDb1<T extends Repository<S, ID>, S, ID extends Serializable> extends

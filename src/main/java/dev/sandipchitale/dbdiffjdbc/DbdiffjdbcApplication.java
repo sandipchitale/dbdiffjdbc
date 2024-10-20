@@ -1,8 +1,10 @@
 package dev.sandipchitale.dbdiffjdbc;
 
 import dev.sandipchitale.dbdiffjdbc.postgres1.entities.NamesToDiff1;
+import dev.sandipchitale.dbdiffjdbc.postgres1.entities.NamesToDiff1WithCtId;
 import dev.sandipchitale.dbdiffjdbc.postgres1.repositories.NamesToDiff1Repository;
 import dev.sandipchitale.dbdiffjdbc.postgres2.entities.NamesToDiff2;
+import dev.sandipchitale.dbdiffjdbc.postgres2.entities.NamesToDiff2WithCtId;
 import dev.sandipchitale.dbdiffjdbc.postgres2.repositories.NamesToDiff2Repository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,8 +27,10 @@ public class DbdiffjdbcApplication {
             namesToDiff1 = new NamesToDiff1(null, "Priti", 54);
             namesToDiff1Repository.save(namesToDiff1);
 
-//            namesToDiff1Repository.findAll().forEach(System.out::println);
-            namesToDiff1Repository.findAllIncludeRowId().forEach(System.out::println);
+            namesToDiff1Repository.findAllIncludeRowId().forEach((NamesToDiff1WithCtId namesToDiff1WithCtId) -> {
+                //                namesToDiff1Repository.findByCtId(String.valueOf(namesToDiff1WithCtId.ctid())).ifPresent(System.out::println);
+                System.out.println(namesToDiff1WithCtId);
+            });
 
             NamesToDiff2 namesToDiff2 = new NamesToDiff2(null, "Jay", 28);
             namesToDiff2Repository.save(namesToDiff2);
@@ -34,8 +38,10 @@ public class DbdiffjdbcApplication {
             namesToDiff2 = new NamesToDiff2(null, "Neel", 23);
             namesToDiff2Repository.save(namesToDiff2);
 
-//            namesToDiff2Repository.findAll().forEach(System.out::println);
-            namesToDiff2Repository.findAllIncludeRowId().forEach(System.out::println);
+            namesToDiff2Repository.findAllIncludeRowId().forEach((NamesToDiff2WithCtId namesToDiff2WithCtId) -> {
+//                namesToDiff2Repository.findByCtId(String.valueOf(namesToDiff2WithCtId.ctid())).ifPresent(System.out::println);
+                System.out.println(namesToDiff2WithCtId);
+            });
         };
     }
 }

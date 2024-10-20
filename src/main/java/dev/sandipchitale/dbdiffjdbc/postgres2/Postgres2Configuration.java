@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.data.jdbc.JdbcRepositoriesAutoConf
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +23,6 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.data.jdbc.repository.support.JdbcRepositoryFactoryBean;
 import org.springframework.data.relational.RelationalManagedTypes;
 import org.springframework.data.relational.core.dialect.Dialect;
-import org.springframework.data.relational.core.dialect.PostgresDialect;
 import org.springframework.data.relational.core.mapping.NamingStrategy;
 import org.springframework.data.relational.core.mapping.RelationalMappingContext;
 import org.springframework.data.repository.Repository;
@@ -141,7 +139,7 @@ public class Postgres2Configuration {
     @Bean
     @Qualifier("db2")
     public Dialect jdbcDialectDb2(@Qualifier("db2") NamedParameterJdbcOperations operations) {
-        return PostgresDialect.INSTANCE;
+        return base.jdbcDialect(operations);
     }
 
     public static class JdbcRepositoryFactoryBeanDb2<T extends Repository<S, ID>, S, ID extends Serializable> extends
