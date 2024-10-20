@@ -24,6 +24,7 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.data.jdbc.repository.support.JdbcRepositoryFactoryBean;
 import org.springframework.data.relational.RelationalManagedTypes;
 import org.springframework.data.relational.core.dialect.Dialect;
+import org.springframework.data.relational.core.dialect.PostgresDialect;
 import org.springframework.data.relational.core.mapping.NamingStrategy;
 import org.springframework.data.relational.core.mapping.RelationalMappingContext;
 import org.springframework.data.repository.Repository;
@@ -140,7 +141,7 @@ public class Postgres1Configuration {
     @Bean @Primary
     @Qualifier("db1")
     public Dialect jdbcDialectDb1(@Qualifier("db1") NamedParameterJdbcOperations operations) {
-        return base.jdbcDialect(operations);
+        return PostgresDialect.INSTANCE;
     }
 
     public static class JdbcRepositoryFactoryBeanDb1<T extends Repository<S, ID>, S, ID extends Serializable> extends
