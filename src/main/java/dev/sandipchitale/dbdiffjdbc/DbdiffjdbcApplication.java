@@ -110,11 +110,11 @@ public class DbdiffjdbcApplication {
                 }
 
                 while (namesToDiff1DigestsToRowIdMapEntrySetIterator.hasNext()) {
-                    System.out.println("In namesToDiff1: " + namesToDiff1DigestsToRowIdMapEntrySetIterator.next());
+                    System.out.println("In namesToDiff1: " + namesToDiff1DigestsToRowIdMapEntrySetIterator.next().getKey());
                 }
 
                 while (namesToDiff2DigestsToRowIdMapEntrySetIterator.hasNext()) {
-                    System.out.println("In namesToDiff2: " + namesToDiff2DigestsToRowIdMapEntrySetIterator.next());
+                    System.out.println("In namesToDiff2: " + namesToDiff2DigestsToRowIdMapEntrySetIterator.next().getKey());
                 }
             }
         };
