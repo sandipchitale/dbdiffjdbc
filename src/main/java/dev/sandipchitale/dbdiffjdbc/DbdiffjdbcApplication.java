@@ -62,10 +62,9 @@ public class DbdiffjdbcApplication {
                 namesToDiff2DigestsToRowIdMap.put(DigestUtils.md5DigestAsHex(namesToDiff2WithCtId.toBytes()), namesToDiff2WithCtId.ctid());
             });
 
-            System.out.println("-----------------------");
-            System.out.println("namesToDiff1DigestsToRowIdMap = " + namesToDiff1DigestsToRowIdMap);
-            System.out.println("namesToDiff2DigestsToRowIdMap = " + namesToDiff2DigestsToRowIdMap);
-            System.out.println("-----------------------");
+            Map<String, Object> inBothMap = new TreeMap<>();
+            Map<String, Object> inNamesToDiff1Map = new TreeMap<>();
+            Map<String, Object> inNamesToDiff2Map = new TreeMap<>();
 
             Iterator<Map.Entry<String, Object>> namesToDiff1DigestsToRowIdMapEntrySetIterator = namesToDiff1DigestsToRowIdMap.entrySet().iterator();
             Iterator<Map.Entry<String, Object>> namesToDiff2DigestsToRowIdMapEntrySetIterator = namesToDiff2DigestsToRowIdMap.entrySet().iterator();
@@ -77,34 +76,36 @@ public class DbdiffjdbcApplication {
                     String key2 = n2.getKey();
                     switch (key1.compareTo(key2)) {
                         case -1:
-                            System.out.println("In namesToDiff1: " + namesToDiff1Repository.findByCtId(String.valueOf(n1.getValue())).get());
+                            inNamesToDiff1Map.put(key1, n1.getValue());
                             if (namesToDiff1DigestsToRowIdMapEntrySetIterator.hasNext()) {
                                 n1 = namesToDiff1DigestsToRowIdMapEntrySetIterator.next();
                             } else {
-                                System.out.println("In namesToDiff2: " + namesToDiff2Repository.findByCtId(String.valueOf(n2.getValue())).get());
+                                inNamesToDiff2Map.put(key2, n2.getValue());
                                 break LOOP;
                             }
                             break;
                         case 0:
-                            System.out.println("In both:         " + namesToDiff1Repository.findByCtId(String.valueOf(n1.getValue())).get());
+                            inBothMap.put(key1, n1.getValue());
                             if (namesToDiff1DigestsToRowIdMapEntrySetIterator.hasNext() && namesToDiff2DigestsToRowIdMapEntrySetIterator.hasNext()) {
                                 n1 = namesToDiff1DigestsToRowIdMapEntrySetIterator.next();
                                 n2 = namesToDiff2DigestsToRowIdMapEntrySetIterator.next();
                                 continue LOOP;
                             } else if (namesToDiff1DigestsToRowIdMapEntrySetIterator.hasNext()) {
-                                System.out.println("In namesToDiff2: " + namesToDiff2Repository.findByCtId(String.valueOf(namesToDiff2DigestsToRowIdMapEntrySetIterator.next().getValue())).get());
+                                Map.Entry<String, Object> next = namesToDiff2DigestsToRowIdMapEntrySetIterator.next();
+                                inNamesToDiff2Map.put(next.getKey(), next.getValue());
                                 break LOOP;
                             } else if (namesToDiff2DigestsToRowIdMapEntrySetIterator.hasNext()) {
-                                System.out.println("In namesToDiff1: " + namesToDiff1Repository.findByCtId(String.valueOf(namesToDiff1DigestsToRowIdMapEntrySetIterator.next().getValue())).get());
+                                Map.Entry<String, Object> next = namesToDiff1DigestsToRowIdMapEntrySetIterator.next();
+                                inNamesToDiff1Map.put(next.getKey(), next.getValue());
                                 break LOOP;
                             }
                             break;
                         case 1:
-                            System.out.println("In namesToDiff2: " + namesToDiff2Repository.findByCtId(String.valueOf(n2.getValue())).get());
+                            inNamesToDiff2Map.put(key2, n2.getValue());
                             if (namesToDiff2DigestsToRowIdMapEntrySetIterator.hasNext()) {
                                 n2 = namesToDiff2DigestsToRowIdMapEntrySetIterator.next();
                             } else {
-                                System.out.println("In namesToDiff1: " + namesToDiff1Repository.findByCtId(String.valueOf(n1.getValue())).get());
+                                inNamesToDiff1Map.put(key1, n1.getValue());
                                 break LOOP;
                             }
                             break;
@@ -112,13 +113,31 @@ public class DbdiffjdbcApplication {
                 }
 
                 while (namesToDiff1DigestsToRowIdMapEntrySetIterator.hasNext()) {
-                    System.out.println("In namesToDiff1: " + namesToDiff1Repository.findByCtId(String.valueOf(namesToDiff1DigestsToRowIdMapEntrySetIterator.next().getValue())).get());
+                    Map.Entry<String, Object> next = namesToDiff1DigestsToRowIdMapEntrySetIterator.next();
+                    inNamesToDiff1Map.put(next.getKey(), next.getValue());
                 }
 
                 while (namesToDiff2DigestsToRowIdMapEntrySetIterator.hasNext()) {
-                    System.out.println("In namesToDiff2: " + namesToDiff2Repository.findByCtId(String.valueOf(namesToDiff2DigestsToRowIdMapEntrySetIterator.next().getValue())).get());
+                    Map.Entry<String, Object> next = namesToDiff2DigestsToRowIdMapEntrySetIterator.next();
+                    inNamesToDiff2Map.put(next.getKey(), next.getValue());
                 }
             }
+
+            System.out.println("-----------------------");
+            System.out.println("In both:");
+            inBothMap.entrySet().stream().forEach((Map.Entry<String, Object> entry) -> {
+                System.out.println(namesToDiff1Repository.findByCtId(String.valueOf(entry.getValue())).get());
+            });
+            System.out.println("-----------------------");
+            System.out.println("In NamesToDiff1 Only:");
+            inNamesToDiff1Map.entrySet().stream().forEach((Map.Entry<String, Object> entry) -> {
+                System.out.println(namesToDiff1Repository.findByCtId(String.valueOf(entry.getValue())).get());
+            });
+            System.out.println("-----------------------");
+            System.out.println("In NamesToDiff2 Only:");
+            inNamesToDiff2Map.entrySet().stream().forEach((Map.Entry<String, Object> entry) -> {
+                System.out.println(namesToDiff2Repository.findByCtId(String.valueOf(entry.getValue())).get());
+            });
         };
     }
 }
