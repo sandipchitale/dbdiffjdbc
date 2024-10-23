@@ -67,7 +67,7 @@ public class DbdiffjdbcApplication {
 
             Iterator<Map.Entry<String, Object>> namesToDiff1DigestsToRowIdMapEntrySetIterator = namesToDiff1DigestsToRowIdMap.entrySet().iterator();
             Iterator<Map.Entry<String, Object>> namesToDiff2DigestsToRowIdMapEntrySetIterator = namesToDiff2DigestsToRowIdMap.entrySet().iterator();
-            if (namesToDiff1DigestsToRowIdMapEntrySetIterator.hasNext() && namesToDiff1DigestsToRowIdMapEntrySetIterator.hasNext()) {
+            if (namesToDiff1DigestsToRowIdMapEntrySetIterator.hasNext() && namesToDiff2DigestsToRowIdMapEntrySetIterator.hasNext()) {
                 Map.Entry<String, Object> n1 = namesToDiff1DigestsToRowIdMapEntrySetIterator.next();
                 Map.Entry<String, Object> n2 = namesToDiff2DigestsToRowIdMapEntrySetIterator.next();
                 LOOP: while (true) {
