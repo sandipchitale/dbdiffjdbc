@@ -1,0 +1,3 @@
+# dbdiffjdbc
+
+Implementation of a simple diff mechanism to identify rows that are in both tables A and B, only in table A and only in table B. The idea is to checksum columns of significance and the ROWID (ctid in case of PostgreSQL), store in a tables sorted on checksum, walk thru both tables step by step, emit common rows when the checksums match to indicate common rows, advance the table row for the smaller checksum to indicate that as being in only that table. Once either of the tables reaches end, then dump rows reaming rows from the other table. Use the rowid to look up the original row.
